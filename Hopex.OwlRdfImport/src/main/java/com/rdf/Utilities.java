@@ -35,7 +35,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.mega.modeling.analysis.AnalysisRenderingToolbox;
 import com.mega.modeling.api.MegaCollection;
 import com.mega.modeling.api.MegaObject;
 import com.mega.modeling.api.MegaRoot;
@@ -262,16 +261,16 @@ public class Utilities {
   }
 
   public void importRdfUsingMappingFile(final MegaRoot mgRoot, final String rdfFile, final String mappingFile) {
-    this.importRdfUsingMappingFileWithProgress(mgRoot, rdfFile, null);
+    this.importRdfUsingMappingFileWithProgress(mgRoot, rdfFile, mappingFile, null);
   }
 
-  public String importRdfUsingMappingFileWithProgress(final MegaRoot mgRoot, final String rdfFile, final MegaProgressControl progress) {
+  public String importRdfUsingMappingFileWithProgress(final MegaRoot mgRoot, final String rdfFile, final String sMappingFile, final MegaProgressControl progress) {
     this.sCreatedObject = new HashMap<String, ArrayList<String>>();
     String sResult = "";
     try {
-      String mappingFile = AnalysisRenderingToolbox.getResourceURL("rdf-owl mapping.json", mgRoot.currentEnvironment().getContext(), mgRoot).toString();
+      //String mappingFile = AnalysisRenderingToolbox.getResourceURL("rdf-owl mapping.json", mgRoot.currentEnvironment().getContext(), mgRoot).toString();
 
-      final BufferedReader reader = new BufferedReader(new FileReader(mappingFile));
+      final BufferedReader reader = new BufferedReader(new FileReader(sMappingFile));
       final StringBuilder stringBuilder = new StringBuilder();
       String line = null;
       final String ls = System.getProperty("line.separator");
@@ -327,11 +326,12 @@ public class Utilities {
           HashMap<String, ArrayList<String>> tmp = mappingType.rdfInstanceToMegaObject(mgRoot, instance);
 
           for (Entry<String, ArrayList<String>> item : tmp.entrySet()) {
-
-            if (this.sCreatedObject.get(item.getKey()) == null) {
-              this.sCreatedObject.put(item.getKey(), item.getValue());
-            } else {
-              this.sCreatedObject.get(item.getKey()).add(item.getValue().get(0));
+            if (!item.getValue().get(0).equals("")) {
+              if (this.sCreatedObject.get(item.getKey()) == null) {
+                this.sCreatedObject.put(item.getKey(), item.getValue());
+              } else {
+                this.sCreatedObject.get(item.getKey()).add(item.getValue().get(0));
+              }
             }
           }
         }

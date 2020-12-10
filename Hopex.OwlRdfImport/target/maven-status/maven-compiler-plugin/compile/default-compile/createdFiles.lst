@@ -1,0 +1,11 @@
+com\rdf\RdfInstance.class
+com\rdf\RdfField.class
+com\rdf\Utilities.class
+com\rdf\RdfType.class
+com\rdf\Constants.class
+com\rdf\Mapping.class
+com\rdf\MappingType.class
+com\rdf\RdfInstanceValue.class
+com\rdf\MappingField.class
+com\rdf\MappingCondition.class
+com\rdf\RdfStore.class
